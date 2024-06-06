@@ -10,7 +10,11 @@ class DetailController extends Controller
     function detail($slug)
     {
         $detail = product::where('slug', $slug)->first();
-
-        return view('detail',compact('detail'));
+        $detail->view += 1;
+        $detail->save();
+        $related = product::where('category_id', $detail->category_id)
+            ->where('id', '<>', $detail->id)->get();
+        return view('detail', compact('detail', 'related'));
     }
+
 }

@@ -1,98 +1,62 @@
 @extends('layout')
 @section('title','NghiFruit | San Pham')
 @section('content')
-<!-- breadcrumb-section -->
-<div class="breadcrumb-section breadcrumb-bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="breadcrumb-text">
-                    <p>Fresh and Organic</p>
-                    <h1>Shop</h1>
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <p>Fresh and Organic</p>
+                        <h1>Shop</h1>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- end breadcrumb section -->
+    <!-- end breadcrumb section -->
 
-<!-- products -->
-<div class="product-section mt-150 mb-150">
-    <div class="container">
+    <!-- products -->
+    <div class="product-section mt-150 mb-150">
+            <div class="container">
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-filters">
-                    <ul>
-                        <li class="active" data-filter="*">All</li>
-                        <li data-filter=".strawberry">Strawberry</li>
-                        <li data-filter=".berry">Berry</li>
-                        <li data-filter=".lemon">Lemon</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            <div class="row">
 
-        <div class="row product-lists">
-            <div class="col-lg-4 col-md-6 text-center strawberry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-1.jpg" alt=""></a>
+                <div class="col-md-12">
+                    <div class="product-filters">
+                        <ul>
+                            @foreach($categories as $item)
+                            <li><a href="{{route('categories',$item->id)}} " style="color: black">{{$item->name}}</a></li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <h3>Strawberry</h3>
-                    <p class="product-price"><span>Per Kg</span> 85$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                 </div>
+
             </div>
-            <div class="col-lg-4 col-md-6 text-center berry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-2.jpg" alt=""></a>
+
+            <div class="row product-lists">
+                @foreach($products as $prd)
+                <div class="col-lg-4 col-md-6 text-center strawberry">
+                    <div class="single-product-item">
+                        <div class="product-image">
+                            <a href="/detail/{{$prd->slug}}"><img src="{{asset('storage/uploads/'.$prd->image)}}" alt=""></a>
+                        </div>
+                        <h3>{{$prd->name}}</h3>
+                        <p class="product-price"><span>Per Kg</span> {{$prd->price}} </p>
+                        <form action="addtocart" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$prd->id}}">
+                            <input type="hidden" name="name" value="{{$prd->name}}">
+                            <input type="hidden" name="image" value="{{$prd->image}}">
+                            <input type="hidden" name="price" value="{{$prd->price}}">
+                            <input type="hidden" name="quantity" value="1">
+                            @if(Auth::check()&&Auth::user()->role==0)
+                            <button type="submit" class="btn bg-warning"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            @endif
+                        </form>
                     </div>
-                    <h3>Berry</h3>
-                    <p class="product-price"><span>Per Kg</span> 70$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 text-center lemon">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-3.jpg" alt=""></a>
-                    </div>
-                    <h3>Lemon</h3>
-                    <p class="product-price"><span>Per Kg</span> 35$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-4.jpg" alt=""></a>
-                    </div>
-                    <h3>Avocado</h3>
-                    <p class="product-price"><span>Per Kg</span> 50$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-5.jpg" alt=""></a>
-                    </div>
-                    <h3>Green Apple</h3>
-                    <p class="product-price"><span>Per Kg</span> 45$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 text-center strawberry">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="single-product.html"><img src="ASM/assets/img/products/product-img-6.jpg" alt=""></a>
-                    </div>
-                    <h3>Strawberry</h3>
-                    <p class="product-price"><span>Per Kg</span> 80$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -100,43 +64,43 @@
             <div class="col-lg-12 text-center">
                 <div class="pagination-wrap">
                     <ul>
-                        <li><a href="#">Prev</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a class="active" href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">Next</a></li>
+
+                        <li>{{$products->links('pagination::bootstrap-4')}}</li>
+{{--                        <li><a href="#">2</a></li>--}}
+{{--                        <li><a href="#">3</a></li>--}}
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- end products -->
+    </div>
+    <!-- end products -->
 
-<!-- logo carousel -->
-<div class="logo-carousel-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="logo-carousel-inner">
-                    <div class="single-logo-item">
-                        <img src="ASM/assets/img/company-logos/1.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="ASM/assets/img/company-logos/2.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="ASM/assets/img/company-logos/3.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="ASM/assets/img/company-logos/4.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="ASM/assets/img/company-logos/5.png" alt="">
+    <!-- logo carousel -->
+    <div class="logo-carousel-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="logo-carousel-inner">
+                        <div class="single-logo-item">
+                            <img src="ASM/assets/img/company-logos/1.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="ASM/assets/img/company-logos/2.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="ASM/assets/img/company-logos/3.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="ASM/assets/img/company-logos/4.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="ASM/assets/img/company-logos/5.png" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- end logo carousel -->
+@endsection
+    <!-- end logo carousel -->

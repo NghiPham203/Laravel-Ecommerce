@@ -22,6 +22,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     <div class="cart-table-wrap">
+
                         <table class="cart-table">
                             <thead class="cart-table-head">
                             <tr class="table-head-row">
@@ -34,35 +35,54 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="ASM/assets/img/products/product-img-1.jpg" alt="">
-                                </td>
-                                <td class="product-name">Strawberry</td>
-                                <td class="product-price">$85</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="ASM/assets/img/products/product-img-2.jpg" alt="">
-                                </td>
-                                <td class="product-name">Berry</td>
-                                <td class="product-price">$70</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="ASM/assets/img/products/product-img-3.jpg" alt="">
-                                </td>
-                                <td class="product-name">Lemon</td>
-                                <td class="product-price">$35</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
+                            @php
+                                $total=0;
+                                $subtotal = 0;
+
+                            @endphp
+                            @foreach($cart as $item)
+                                @php
+
+                                    $total=$item['quantity']*$item['price'];
+                                    $subtotal+=$total;
+                                @endphp
+                                <tr class="table-body-row">
+                                    <td class="product-remove">
+
+                                        <a href="{{route('cart.remove', $item['id'])}}"><i
+                                                class="far fa-window-close"></i></a>
+                                    </td>
+                                    <td class="product-image"><img
+                                            src="{{asset('storage/uploads/'.$item['image'])}}" alt="">
+                                    </td>
+                                    <td class="product-name">{{$item['name']}}</td>
+                                    <td class="product-price">{{$item['price']}}</td>
+                                    <td class="product-quantity">
+                                        <form action="{{ route('cart.decrease', ['id' => $item['id']]) }}" method="POST"
+                                              style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="quantity-button">-</button>
+                                        </form>
+                                        <input type="number" value="{{$item['quantity']}}" min="1"
+                                               class="quantity-input" readonly>
+                                        <form action="{{ route('cart.increase', ['id' => $item['id']]) }}" method="POST"
+                                              style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="quantity-button">+</button>
+                                        </form>
+                                    </td>
+
+                                    <td class="product-total">{{$total}}</td>
+                                </tr>
+                            @endforeach
+
                             </tbody>
                         </table>
+                        <form action="{{ route('cart.empty') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn" style="background-color: orange">Empty Cart</button>
+                        </form>
+
                     </div>
                 </div>
 
@@ -76,23 +96,24 @@
                             </tr>
                             </thead>
                             <tbody>
+
                             <tr class="total-data">
                                 <td><strong>Subtotal: </strong></td>
-                                <td>$500</td>
-                            </tr>
-                            <tr class="total-data">
-                                <td><strong>Shipping: </strong></td>
-                                <td>$45</td>
-                            </tr>
-                            <tr class="total-data">
-                                <td><strong>Total: </strong></td>
-                                <td>$545</td>
-                            </tr>
+                                <td>{{$subtotal}}</td>
+                                </tr>
+{{--                            <tr class="total-data">--}}
+{{--                                <td><strong>Shipping: </strong></td>--}}
+{{--                                <td>$45</td>--}}
+{{--                            </tr>--}}
+{{--                            <tr class="total-data">--}}
+{{--                                <td><strong>Total: </strong></td>--}}
+{{--                                <td>$545</td>--}}
+{{--                            </tr>--}}
                             </tbody>
                         </table>
                         <div class="cart-buttons">
                             <a href="cart.html" class="boxed-btn">Update Cart</a>
-                            <a href="checkout.html" class="boxed-btn black">Check Out</a>
+                            <a href="{{route('checkoutform')}}" class="boxed-btn black">Check Out</a>
                         </div>
                     </div>
 
@@ -110,3 +131,4 @@
         </div>
     </div>
     <!-- end cart -->
+@endsection

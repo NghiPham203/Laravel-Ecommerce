@@ -1,4 +1,11 @@
-/*Template Name: Fruitkha - Responsive Bootstrap4 Shop TemplateTemplate URI: Description: Bootstrap template for fruits or any other kind of shopAuthor: Imran HossainAuthor URI: https://imransdesign.com/Version: 1.0*/
+/*
+Template Name: Fruitkha - Responsive Bootstrap4 Shop Template
+Template URI:
+Description: Bootstrap template for fruits or any other kind of shop
+Author: Imran Hossain
+Author URI: https://imransdesign.com/
+Version: 1.0
+*/
 /* -----------------------------------------------------------------------------
 
 # Base - Genral & Typography
@@ -10,6 +17,10 @@ html {
   line-height: 28px;
   height: 100%;
 }
+.password-reset-container {
+    padding-top: 90px; /* Tăng giá trị này nếu header vẫn còn che mất nội dung */
+}
+
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -800,6 +811,52 @@ a.mobile-show {
 .search-bar-tablecell input::-webkit-input-placeholder {
   color: #fff;
 }
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 0 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+}
+
+.quantity-button {
+    background-color: orange;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.pagination-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item .page-link {
+    color: #000000; /* Màu chữ */
+    border-radius: 50%; /* Bo tròn */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #ff6600; /* Màu nền của trang hiện tại */
+    border-color: #ff6600;
+}
+
+.pagination .page-link {
+    margin: 0 5px; /* Khoảng cách giữa các trang */
+    padding: 10px 15px; /* Kích thước nút */
+}
+
+
+.quantity-button:hover {
+    background-color: red;
+}
 
 .search-bar-tablecell input:-ms-input-placeholder {
   color: #fff;
@@ -1290,6 +1347,20 @@ ul.product-share li a {
 ul.product-share li:hover a {
   color: #F28123;
 }
+.btn-primary {
+    background-color: #F28123;
+    border-color: #007bff;
+    color: white;
+    font-size: 1.2em;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #d32e4b;
+    border-color: #004085;
+    color: white;
+}
+
 
 .service-menu ul li a {
   -webkit-transition: 0.3s;

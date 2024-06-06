@@ -81,14 +81,25 @@
 
         <div class="row">
             @foreach($product as $prd)
-            <div class="col-lg-4 col-md-6 text-center">
+            <div class="col-lg-3 col-md-6 text-center">
                 <div class="single-product-item">
                     <div class="product-image">
-                        <a href="/detail/{{$prd->slug}}"><img src="ASM/assets/img/products/{{$prd->image}}" alt=""></a>
+                        <a href="/detail/{{$prd->slug}}"><img src="storage/uploads/{{$prd->image}}" alt=""></a>
                     </div>
                     <h3>{{$prd->name}}</h3>
                     <p class="product-price"><span>Per Kg</span> {{$prd->price}}$ </p>
-                    <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                    <form action="/addtocart" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$prd->id}}">
+                        <input type="hidden" name="name" value="{{$prd->name}}">
+                        <input type="hidden" name="image" value="{{$prd->image}}">
+                        <input type="hidden" name="price" value="{{$prd->price}}">
+                        <input type="hidden" name="quantity" value="1">
+                        @if(Auth::check()&&Auth::user()->role==0)
+                        <button type="submit" class="btn bg-warning"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        @endif
+                    </form>
+
                 </div>
             </div>
 
@@ -214,3 +225,4 @@
     </div>
 </div>
 <!-- end latest news -->
+@endsection
